@@ -15,7 +15,7 @@ export default function ShareForm({ ip }: Props) {
   const [notes, setNotes] = React.useState("");
   const [textAreaval, setTextAreaval] = useState("");
   // UseRef to ref textarea
-  const textarea = React.useRef<HTMLDivElement>(null)
+  const textarea = React.createRef<HTMLTextAreaElement>();
 
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
@@ -46,7 +46,7 @@ export default function ShareForm({ ip }: Props) {
         onChange={(e) => {
           setTextAreaval(e.target.value);
         }}
-        ref={textarea}
+        ref={textarea as RefObject<HTMLTextAreaElement>}
       ></textarea>
       <div className="buttons flex items-center justify-center gap-3">
         <button
