@@ -27,10 +27,19 @@ export async function handleSubmit(data: FormData) {
 
 export async function getNotes(ip: string) {
     "use server"
-    const notes = await prisma.iP.findUnique({
+    let notes = await prisma.iP.findUnique({
         where: {
             ip: ip
         }
     });
+
+    if (!notes) {
+        notes = await prisma.iP.create({
+            data: {
+                ip: ip,
+                notes: ''
+            }
+        });
+    }
     return notes?.notes || '';
 }
