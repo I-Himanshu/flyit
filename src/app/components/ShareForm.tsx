@@ -1,5 +1,5 @@
 "use client";
-import { handleSubmit, getNotes } from "@/lib/formFunctions";
+import { handleSubmit, getNotes, updateNotes } from "@/lib/formFunctions";
 import React, {
   MutableRefObject,
   RefObject,
@@ -30,7 +30,11 @@ export default function ShareForm({ ip }: Props) {
 
 
   useEffect(() => {
-    const interval = setInterval(() => {}, 1000);
+    const interval = setInterval(() => {
+      if (textAreaval != notes) {
+        updateNotes(ip, textAreaval);
+      }
+    }, 1000);
     return () => {
       clearInterval(interval);
     };

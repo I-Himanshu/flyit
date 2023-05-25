@@ -43,3 +43,16 @@ export async function getNotes(ip: string) {
     }
     return notes?.notes || '';
 }
+
+// function that update note
+export async function updateNotes(ip: string, notes: string) {
+    "use server"
+    await prisma.iP.update({
+        where: {
+            ip: ip
+        },
+        data: {
+            notes: notes
+        }
+    });
+}
