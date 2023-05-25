@@ -29,16 +29,17 @@ export default function ShareForm({ ip }: Props) {
   }, [loading,ip]);
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (textAreaval != notes) {
-        updateNotes(ip, textAreaval);
-      }
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (textAreaval != notes) {
+  //       updateNotes(ip, textAreaval);
+  //       console.log("updated", textAreaval);
+  //     }
+  //   }, 1000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
   return (
     <form action={handleSubmit} className="bg-slate-500 w-8/12 p-3">
       <input type="hidden" value={ip} name="ip" />
@@ -49,6 +50,7 @@ export default function ShareForm({ ip }: Props) {
         value={textAreaval}
         onChange={(e) => {
           setTextAreaval(e.target.value);
+          updateNotes(ip, e.target.value);
         }}
         // ref={textarea as RefObject<HTMLTextAreaElement>}
       ></textarea>
@@ -57,7 +59,7 @@ export default function ShareForm({ ip }: Props) {
           type="submit"
           name="submit"
           value={"update"}
-          className="bg-red-500 rounded-lg py-2 px-5 text-white bold text-lg hover:scale-90 hover:bg-red-500 disabled:bg-red-200"
+          className="bg-red-500 rounded-lg py-2 px-5 text-white bold text-lg hover:scale-90 hover:bg-red-500 disabled:bg-red-300"
           disabled={textAreaval == notes}
         >
           Save
