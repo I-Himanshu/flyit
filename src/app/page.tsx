@@ -1,10 +1,21 @@
 import { headers } from 'next/headers';
- 
-export default function Page() {
+import ShareForm from './components/ShareForm';
+
+
+export default async function Page() {
   const headersList = headers();
   const ip = headersList.get('x-forwarded-for') || '';
- 
-  return <div><br />
-    IP: {ip}
-  </div>;
+  
+
+
+  return <>
+    <header>
+      <h1>Home</h1>
+    </header>
+    <main className='w-full h-full flex justify-center items-center'>
+      <ShareForm
+        ip={ip}
+      />
+      </main>
+  </>
 }

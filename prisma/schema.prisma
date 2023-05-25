@@ -11,7 +11,7 @@ datasource db {
 }
 
 model IP{
-  id String @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   ip String @unique
   notes String
   createdAt DateTime @default(now())

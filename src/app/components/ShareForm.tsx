@@ -1,20 +1,73 @@
-import React from 'react'
+"use client";
+import { handleSubmit, getNotes } from "@/lib/formFunctions";
+import React, {
+  MutableRefObject,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 type Props = {
-    notes: string
-    ip: string
-    updateNotes: (notes: string) => void
-}
-export default function ShareForm({notes, ip, updateNotes}: Props){
+  ip: string;
+};
 
-    return (
-        <form action="" className=''>
-            <textarea name="" id="" cols={30} rows={10} value={notes} className=''>
+export default function ShareForm({ ip }: Props) {
+  const [notes, setNotes] = React.useState("");
+  const [textAreaval, setTextAreaval] = useState("");
+  // UseRef to ref textarea
+  const textarea = React.useRef<HTMLDivElement>(null)
 
-            </textarea>
-            <div className="buttons">
-                <button type="submit">Save</button>
-                <button type="button">Refresh</button>
-            </div>
-        </form>
-    )
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    const unsubscribe = async () => {
+      const Notes = await getNotes(ip);
+      setNotes(Notes);
+      setTextAreaval(Notes);
+      console.log(Notes);
+    };
+    unsubscribe();
+  }, [loading]);
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {}, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+  return (
+    <form action={handleSubmit} className="bg-slate-500 w-8/12 p-3">
+      <input type="hidden" value={ip} name="ip" />
+      <textarea
+        name="notes"
+        className="w-full min-h-[300px] p-3"
+        defaultValue={notes}
+        value={textAreaval}
+        onChange={(e) => {
+          setTextAreaval(e.target.value);
+        }}
+        ref={textarea}
+      ></textarea>
+      <div className="buttons flex items-center justify-center gap-3">
+        <button
+          type="submit"
+          name="submit"
+          value={"update"}
+          className="bg-red-500 rounded-lg py-2 px-5 text-white bold text-lg hover:scale-90 hover:bg-red-500 disabled:bg-red-200"
+          disabled={textAreaval == notes}
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          className="bg-red-500 rounded-lg py-2 px-3 text-white bold text-lg  hover:scale-95"
+          onClick={() => {
+            loading ? setLoading(false) : setLoading(true);
+          }}
+        >
+          Refresh
+        </button>
+      </div>
+    </form>
+  );
 }
