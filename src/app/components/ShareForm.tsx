@@ -26,7 +26,7 @@ export default function ShareForm({ ip }: Props) {
       console.log(Notes);
     };
     unsubscribe();
-  }, [loading]);
+  }, [loading,ip]);
 
 
   useEffect(() => {
